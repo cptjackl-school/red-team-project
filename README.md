@@ -29,17 +29,6 @@ ln -s /path/to/RetroRestoration/theme /path/to/localwp/site/app/public/wp-conten
 ln -s /path/to/RetroRestoration/plugin /path/to/localwp/site/app/public/wp-content/plugins/retro-restoration-tools
 ```
 
-## GitHub Setup
-
-```bash
-git init
-git add .
-git commit -m "Initial WordPress theme setup"
-git branch -M main
-git remote add origin https://github.com/yourname/my-wp-project.git
-git push -u origin main
-```
-
 ## Activate in WordPress
 
 - Activate **Retro Restoration** theme in **Appearance → Themes**.
