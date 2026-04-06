@@ -14,7 +14,7 @@ $videos_query = new WP_Query([
     'post_type' => 'post',
     'posts_per_page' => 12,
     'post_status' => 'publish',
-    'category_name' => 'videos',
+    'tag' => 'video',
 ]);
 ?>
 <main class="rr-page-template rr-page-template--videos">
@@ -27,7 +27,7 @@ $videos_query = new WP_Query([
     get_template_part('template-parts/sections/post-grid', null, [
         'title' => __('Video Posts', 'retro-restoration'),
         'query' => $videos_query,
-        'empty_text' => __('No video posts yet. Add posts to the Videos category.', 'retro-restoration'),
+        'empty_text' => __('No video posts yet. Add posts tagged video.', 'retro-restoration'),
     ]);
 
     wp_reset_postdata();

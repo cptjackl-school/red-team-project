@@ -1,4 +1,4 @@
-/*
+﻿/*
 Theme Name: Retro Restoration
 Author: Jack L
 Version: 1.0.0
@@ -659,6 +659,104 @@ body > main {
 	letter-spacing: 0.35px;
 }
 
+.rr-archive-main {
+	padding: 22px 12px 18px;
+	background: #f2f2f2;
+}
+
+.rr-archive-cards {
+	width: 80%;
+	max-width: 1180px;
+	margin: 0 auto;
+}
+
+.rr-archive-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 14px;
+}
+
+.rr-post-card {
+	background: #fff;
+	border: 1px solid #e4e7eb;
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+	display: grid;
+	grid-template-rows: auto 1fr;
+}
+
+.rr-post-card__image {
+	display: block;
+	aspect-ratio: 16 / 9;
+	background: #111827;
+}
+
+.rr-post-card__image img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.rr-post-card__body {
+	padding: 12px;
+	display: grid;
+	gap: 7px;
+}
+
+.rr-post-card__meta {
+	margin: 0;
+	font-size: 0.73rem;
+	color: #6b7280;
+	text-transform: uppercase;
+	letter-spacing: 0.34px;
+	font-weight: 600;
+}
+
+.rr-post-card__body h3 {
+	margin: 0;
+	font-size: 1rem;
+	line-height: 1.3;
+}
+
+.rr-post-card__body h3 a {
+	color: #111827;
+	text-decoration: none;
+}
+
+.rr-post-card__body h3 a:hover,
+.rr-post-card__body h3 a:focus-visible {
+	color: var(--rr-red);
+}
+
+.rr-post-card__excerpt {
+	font-size: 0.86rem;
+	line-height: 1.55;
+	color: #374151;
+}
+
+.rr-archive-pagination {
+	margin-top: 14px;
+	display: flex;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.rr-archive-pagination a {
+	text-decoration: none;
+	color: #111827;
+	font-size: 0.82rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.34px;
+}
+
+.rr-archive-pagination a:hover,
+.rr-archive-pagination a:focus-visible {
+	color: var(--rr-red);
+}
+
 .rr-page-template--articles {
 	padding-bottom: 16px;
 	background: linear-gradient(180deg, #f5f5f5 0%, #ffffff 30%);
@@ -670,9 +768,102 @@ body > main {
 }
 
 .rr-single-default {
-	max-width: 860px;
-	margin: 0 auto;
-	padding: 0 16px;
+	width: 100%;
+}
+
+.rr-single-layout {
+	width: 80%;
+	max-width: 1180px;
+	margin: 24px auto 0;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 300px;
+	gap: 20px;
+	align-items: start;
+}
+
+.rr-single-layout__main {
+	min-width: 0;
+}
+
+.rr-reading-feed--single {
+	max-width: none;
+	margin: 0;
+	padding: 0;
+}
+
+.rr-post-sidebar {
+	position: sticky;
+	top: 96px;
+	align-self: start;
+	background: #ffffff;
+	border: 1px solid #e5e7eb;
+	border-left: 4px solid var(--rr-red);
+	border-radius: 12px;
+	padding: 16px;
+	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+	display: grid;
+	gap: 12px;
+}
+
+.rr-post-sidebar__kicker {
+	margin: 0;
+	font-size: 0.72rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.52px;
+	color: #6b7280;
+}
+
+.rr-post-sidebar__title {
+	margin: 0;
+	font-family: 'Teko', sans-serif;
+	font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+	line-height: 1.1;
+	letter-spacing: 0.3px;
+	text-transform: uppercase;
+	color: #111827;
+}
+
+.rr-post-sidebar__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 10px;
+}
+
+.rr-post-sidebar__label {
+	display: block;
+	margin-bottom: 4px;
+	font-size: 0.72rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.48px;
+	color: #6b7280;
+}
+
+.rr-post-sidebar__value {
+	font-size: 0.9rem;
+	line-height: 1.5;
+	color: #1f2937;
+}
+
+.rr-post-sidebar__value a {
+	color: #1f2937;
+	text-decoration: none;
+	font-weight: 600;
+}
+
+.rr-post-sidebar__value a:hover,
+.rr-post-sidebar__value a:focus-visible {
+	color: var(--rr-red);
+}
+
+.rr-post-sidebar__description {
+	margin: 0;
+	font-size: 0.9rem;
+	line-height: 1.6;
+	color: #374151;
 }
 
 .rr-reading-feed {
@@ -785,6 +976,177 @@ body > main {
 	border-radius: 10px;
 }
 
+.rr-comments {
+	width: 100%;
+	margin: 18px 0 0;
+	padding: 18px 16px 0;
+	background: #ffffff;
+	border: 1px solid #e5e7eb;
+	border-radius: 12px;
+	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+}
+
+.rr-comments__title,
+.rr-comments__reply-title,
+.rr-comments__list,
+.rr-comments__closed,
+.rr-comments__form {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.rr-comments__title,
+.rr-comments__reply-title {
+	margin: 0 0 14px;
+	font-family: 'Teko', sans-serif;
+	font-size: clamp(1.4rem, 2vw, 1.8rem);
+	letter-spacing: 0.4px;
+	text-transform: uppercase;
+}
+
+.rr-comments__list {
+	list-style: none;
+	padding: 0;
+	margin: 0 0 18px;
+	display: grid;
+	gap: 14px;
+}
+
+.rr-comment-card {
+	padding: 14px;
+	border: 1px solid #edf0f4;
+	border-radius: 10px;
+	background: #fafafa;
+}
+
+.rr-comment-card__inner {
+	display: grid;
+	gap: 12px;
+}
+
+.rr-comment-card__header {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.rr-comment-card__avatar img {
+	display: block;
+	border-radius: 999px;
+}
+
+.rr-comment-card__meta {
+	display: grid;
+	gap: 3px;
+}
+
+.rr-comment-card__author {
+	margin: 0;
+	font-weight: 700;
+	font-size: 0.95rem;
+	color: #111827;
+}
+
+.rr-comment-card__date {
+	font-size: 0.78rem;
+	color: #6b7280;
+}
+
+.rr-comment-card__content {
+	font-size: 0.96rem;
+	line-height: 1.65;
+	color: #1f2937;
+}
+
+.rr-comment-card__content p {
+	margin: 0 0 10px;
+}
+
+.rr-comment-card__footer {
+	display: flex;
+	gap: 14px;
+	flex-wrap: wrap;
+	align-items: center;
+	font-size: 0.82rem;
+}
+
+.rr-comment-card__footer a {
+	color: var(--rr-red);
+	text-decoration: none;
+	font-weight: 700;
+}
+
+.rr-comment-card__footer a:hover,
+.rr-comment-card__footer a:focus-visible {
+	text-decoration: underline;
+}
+
+.rr-comment-card--child {
+	margin-left: 18px;
+}
+
+.rr-comments__list .comment-meta {
+	font-size: 0.8rem;
+	color: #6b7280;
+}
+
+.rr-comments__list .comment-content {
+	margin-top: 8px;
+	font-size: 0.96rem;
+	line-height: 1.65;
+	color: #1f2937;
+}
+
+.rr-comments__closed {
+	margin: 0 0 14px;
+	font-size: 0.9rem;
+	color: #6b7280;
+}
+
+.rr-comments__form {
+	display: grid;
+	gap: 12px;
+	padding: 0 0 18px;
+}
+
+.rr-comments__form textarea,
+.rr-comments__form input[type='text'],
+.rr-comments__form input[type='email'],
+.rr-comments__form input[type='url'] {
+	width: 100%;
+	padding: 11px 12px;
+	border: 1px solid #dbe1e8;
+	border-radius: 10px;
+	font: inherit;
+	background: #fff;
+}
+
+.rr-comments__form textarea:focus,
+.rr-comments__form input[type='text']:focus,
+.rr-comments__form input[type='email']:focus,
+.rr-comments__form input[type='url']:focus {
+	outline: 2px solid rgba(221, 17, 23, 0.2);
+	border-color: var(--rr-red);
+}
+
+.rr-comments__form .submit {
+	justify-self: start;
+	padding: 10px 16px;
+	border: 0;
+	border-radius: 999px;
+	background: var(--rr-red);
+	color: #fff;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.35px;
+	cursor: pointer;
+}
+
+.rr-comments__form .submit:hover,
+.rr-comments__form .submit:focus-visible {
+	background: #b80f14;
+}
+
 @media (max-width: 980px) {
 	.rr-site-header__inner {
 		width: 100%;
@@ -868,6 +1230,17 @@ body > main {
 		gap: 20px;
 	}
 
+	.rr-single-layout {
+		width: 92%;
+		grid-template-columns: minmax(0, 1fr) 260px;
+		gap: 16px;
+	}
+
+	.rr-post-sidebar {
+		top: 82px;
+		padding: 14px;
+	}
+
 	.rr-reading-article {
 		padding: 20px;
 	}
@@ -898,6 +1271,14 @@ body > main {
 
 	.rr-topic-columns__grid {
 		grid-template-columns: 1fr;
+	}
+
+	.rr-archive-cards {
+		width: 92%;
+	}
+
+	.rr-archive-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 
 	.rr-topic-preview {
@@ -992,6 +1373,22 @@ body > main {
 		padding: 0 12px;
 	}
 
+	.rr-single-layout {
+		width: 100%;
+		grid-template-columns: 1fr;
+		margin-top: 16px;
+		padding: 0 12px;
+	}
+
+	.rr-post-sidebar {
+		position: static;
+		order: -1;
+	}
+
+	.rr-reading-feed--single {
+		padding: 0;
+	}
+
 	.rr-reading-article {
 		padding: 16px;
 		border-radius: 10px;
@@ -1005,6 +1402,15 @@ body > main {
 	.rr-reading-pagination {
 		flex-direction: column;
 		align-items: flex-start;
+	}
+
+	.rr-comments {
+		padding: 16px 12px 0;
+		margin-top: 14px;
+	}
+
+	.rr-comment-card--child {
+		margin-left: 10px;
 	}
 
 	.rr-homepage {
@@ -1050,5 +1456,27 @@ body > main {
 
 	.rr-video-thumb__media {
 		height: 88px;
+	}
+
+	.rr-archive-main {
+		padding: 16px 10px 14px;
+	}
+
+	.rr-archive-cards {
+		width: 100%;
+	}
+
+	.rr-archive-grid {
+		grid-template-columns: 1fr;
+		gap: 10px;
+	}
+
+	.rr-post-card__body {
+		padding: 10px;
+	}
+
+	.rr-archive-pagination {
+		flex-direction: column;
+		align-items: flex-start;
 	}
 }

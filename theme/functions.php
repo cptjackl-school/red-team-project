@@ -26,10 +26,10 @@ function retro_restoration_primary_menu_fallback($args = []): void
     $featured_url = esc_url(home_url('/featured/'));
     $consoles_url = esc_url(home_url('/categories/'));
     $shop_url = esc_url(home_url('/shop/'));
-    $tutorials_url = esc_url(retro_restoration_get_term_or_slug_url('post_tag', 'tutorials'));
-    $reviews_url = esc_url(retro_restoration_get_term_or_slug_url('post_tag', 'reviews'));
-    $video_tag_url = esc_url(retro_restoration_get_term_or_slug_url('post_tag', 'video'));
-    $article_tag_url = esc_url(retro_restoration_get_term_or_slug_url('post_tag', 'article'));
+    $tutorials_url = esc_url(retro_restoration_get_first_term_url('post_tag', ['tutorials', 'tutorial']));
+    $reviews_url = esc_url(retro_restoration_get_first_term_url('post_tag', ['reviews', 'review']));
+    $video_tag_url = esc_url(retro_restoration_get_first_term_url('post_tag', ['video', 'videos']));
+    $article_tag_url = esc_url(retro_restoration_get_first_term_url('post_tag', ['article', 'articles']));
 
     echo '<ul class="' . esc_attr($menu_class) . '">';
 
@@ -126,6 +126,22 @@ function retro_restoration_get_term_or_slug_url(string $taxonomy, string $slug):
     return (string) home_url('/' . trim($slug, '/') . '/');
 }
 
+function retro_restoration_get_first_term_url(string $taxonomy, array $slugs): string
+{
+    foreach ($slugs as $slug) {
+        $term = get_term_by('slug', (string) $slug, $taxonomy);
+        if ($term && !is_wp_error($term)) {
+            $term_link = get_term_link($term);
+            if (!is_wp_error($term_link)) {
+                return (string) $term_link;
+            }
+        }
+    }
+
+    $fallback_slug = !empty($slugs) ? (string) $slugs[0] : '';
+    return retro_restoration_get_term_or_slug_url($taxonomy, $fallback_slug);
+}
+
 function retro_restoration_enqueue_assets(): void
 {
     $style_path = get_stylesheet_directory() . '/style.css';
@@ -139,3 +155,15 @@ function retro_restoration_enqueue_assets(): void
     );
 }
 add_action('wp_enqueue_scripts', 'retro_restoration_enqueue_assets');
+
+function retro_restoration_comment_card(WP_Comment $comment, array $args, int $depth): void
+{
+    $GLOBALS['comment'] = $comment;
+
+    get_template_part('template-parts/comments/comment-card', null, [
+        'comment'        => $comment,
+        'args'           => $args,
+        'depth'          => $depth,
+        'comment_number' => 0,
+    ]);
+}
