@@ -2,6 +2,11 @@
 /**
  * Template Name: Login / Register
  * Template Post Type: page
+ * 
+ * template design aided by copilot for styling and WooCommerce hook-ins
+ * 
+ * prompt:ok now we need to make a login and registration page that will 
+ * allow new users to register an account or existing users to create an account
  */
 
 if (!defined('ABSPATH')) {

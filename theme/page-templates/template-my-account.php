@@ -2,6 +2,11 @@
 /**
  * Template Name: My Account Page
  * Template Post Type: page
+ * 
+ * template design aided by copilot for styling and WooCommerce hook-ins
+ * prompt:
+ * ok the my account dashboard section has gotten a little jumbled around. 
+ * can we stack the account panels vertically instead of orizontally?
  */
 
 if (!defined('ABSPATH')) {

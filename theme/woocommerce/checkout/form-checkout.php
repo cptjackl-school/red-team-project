@@ -3,6 +3,11 @@
  * Checkout Form
  *
  * This template can be overridden by copying it to yourtheme/woocommerce/checkout/form-checkout.php.
+ * 
+ * template design aided by copilot for styling and WooCommerce hook-ins
+ * prompt:
+ * ok we need to make a custom checkout page template that has the same functionality as the default 
+ * WooCommerce one but with our own styling and structure.
  *
  * @see https://woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates
