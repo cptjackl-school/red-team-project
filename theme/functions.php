@@ -135,11 +135,32 @@ function retro_restoration_primary_menu_fallback($args = []): void
     echo '<ul class="' . esc_attr($menu_class) . '">';
 
     if ($is_footer_menu) {
-        echo '<li class="menu-item"><a href="' . $featured_url . '">' . esc_html__('Featured', 'retro-restoration') . '</a></li>';
-        echo '<li class="menu-item"><a href="' . $consoles_url . '">' . esc_html__('Consoles', 'retro-restoration') . '</a></li>';
-        echo '<li class="menu-item"><a href="' . $video_tag_url . '">' . esc_html__('Videos', 'retro-restoration') . '</a></li>';
-        echo '<li class="menu-item"><a href="' . $article_tag_url . '">' . esc_html__('Articles', 'retro-restoration') . '</a></li>';
-        echo '<li class="menu-item"><a href="' . $shop_url . '">' . esc_html__('Shop', 'retro-restoration') . '</a></li>';
+        $account_base_url = (string) retro_restoration_account_page_url();
+        $refund_policy_url = (string) home_url('/refund_returns/');
+        $privacy_policy_url = function_exists('get_privacy_policy_url') ? (string) get_privacy_policy_url() : (string) home_url('/privacy-policy/');
+
+        if (function_exists('wc_get_account_endpoint_url')) {
+            $orders_url = (string) wc_get_account_endpoint_url('orders');
+            $downloads_url = (string) wc_get_account_endpoint_url('downloads');
+            $addresses_url = (string) wc_get_account_endpoint_url('edit-address');
+            $account_details_url = (string) wc_get_account_endpoint_url('edit-account');
+            $logout_url = (string) wc_get_account_endpoint_url('customer-logout');
+        } else {
+            $orders_url = trailingslashit($account_base_url) . 'orders/';
+            $downloads_url = trailingslashit($account_base_url) . 'downloads/';
+            $addresses_url = trailingslashit($account_base_url) . 'edit-address/';
+            $account_details_url = trailingslashit($account_base_url) . 'edit-account/';
+            $logout_url = wp_logout_url($account_base_url);
+        }
+
+        echo '<li class="menu-item"><a href="' . esc_url($account_base_url) . '">' . esc_html__('Dashboard', 'retro-restoration') . '</a></li>';
+        echo '<li class="menu-item"><a href="' . esc_url($orders_url) . '">' . esc_html__('Orders', 'retro-restoration') . '</a></li>';
+        echo '<li class="menu-item"><a href="' . esc_url($downloads_url) . '">' . esc_html__('Downloads', 'retro-restoration') . '</a></li>';
+        echo '<li class="menu-item"><a href="' . esc_url($addresses_url) . '">' . esc_html__('Addresses', 'retro-restoration') . '</a></li>';
+        echo '<li class="menu-item"><a href="' . esc_url($account_details_url) . '">' . esc_html__('Account details', 'retro-restoration') . '</a></li>';
+        echo '<li class="menu-item"><a href="' . esc_url($refund_policy_url) . '">' . esc_html__('Refund policy', 'retro-restoration') . '</a></li>';
+        echo '<li class="menu-item"><a href="' . esc_url($privacy_policy_url) . '">' . esc_html__('Privacy policy', 'retro-restoration') . '</a></li>';
+        echo '<li class="menu-item"><a href="' . esc_url($logout_url) . '">' . esc_html__('Log out', 'retro-restoration') . '</a></li>';
         echo '</ul>';
         return;
     }

@@ -183,6 +183,11 @@ body > main {
 	height: 100%;
 }
 
+.rr-footer-nav {
+	display: flex;
+	align-items: center;
+}
+
 .rr-menu,
 .rr-footer-menu,
 .rr-social-links,
@@ -201,6 +206,8 @@ body > main {
 
 .rr-footer-menu {
 	gap: 22px;
+	align-items: center;
+	min-height: 0;
 }
 
 .rr-menu li,
