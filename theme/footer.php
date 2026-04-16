@@ -25,12 +25,12 @@ if (!defined('ABSPATH')) {
 
             <div class="rr-footer-meta">
                 <a href="<?php echo esc_url(home_url('/refund_returns/')); ?>" class="rr-footer-brand-link"><?php echo esc_html(get_bloginfo('name')); ?> &copy; <?php echo esc_html(date('Y')); ?></a>
-                <ul class="rr-footer-social" aria-label="<?php esc_attr_e('Footer social links', 'retro-restoration'); ?>">
-                    <li><a href="#" aria-label="Facebook">f</a></li>
-                    <li><a href="#" aria-label="X">x</a></li>
-                    <li><a href="#" aria-label="Instagram">ig</a></li>
-                    <li><a href="#" aria-label="YouTube">yt</a></li>
-                </ul>
+                <?php $footer_social_links = retro_restoration_get_social_links(); ?>
+                <?php if (!empty($footer_social_links)) : ?>
+                    <ul class="rr-footer-social" aria-label="<?php esc_attr_e('Footer social links', 'retro-restoration'); ?>">
+                        <?php retro_restoration_render_social_link_items(); ?>
+                    </ul>
+                <?php endif; ?>
             </div>
         </div>
     </div>

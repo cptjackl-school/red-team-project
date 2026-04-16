@@ -315,6 +315,36 @@ body > main {
 	opacity: 0.95;
 }
 
+.rr-social-link a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.08);
+	transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+.rr-social-link a:hover,
+.rr-social-link a:focus-visible {
+	background: rgba(255, 255, 255, 0.16);
+}
+
+.rr-social-link__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 18px;
+	height: 18px;
+}
+
+.rr-social-link__icon svg {
+	display: block;
+	width: 18px;
+	height: 18px;
+}
+
 .rr-social-links a {
 	font-size: 0.72rem;
 }
@@ -323,8 +353,7 @@ body > main {
 	font-size: 0.68rem;
 }
 
-.rr-social-links li:first-child a,
-.rr-footer-social li:first-child a {
+.rr-social-links li:first-child a {
 	color: var(--rr-red);
 }
 
@@ -348,9 +377,27 @@ body > main {
 	transition: background 0.2s ease;
 }
 
+.rr-discord-link {
+	background: #5865f2;
+	color: var(--rr-white) !important;
+	padding: 8px 16px;
+	border-radius: 4px;
+	text-decoration: none;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	font-size: 0.85rem;
+	transition: background 0.2s ease;
+}
+
 .rr-register-link:hover,
 .rr-register-link:focus-visible {
 	background: #b80f14;
+}
+
+.rr-discord-link:hover,
+.rr-discord-link:focus-visible {
+	background: #4752c4;
 }
 
 .rr-page-template--login-starter,
@@ -992,6 +1039,30 @@ body > main {
 	background: #f2f2f2;
 }
 
+.rr-archive-main .rr-archive-hero {
+	width: 80%;
+	max-width: 1180px;
+	margin: 0 auto 24px;
+	text-align: left;
+}
+
+.rr-archive-main .rr-archive-hero h1 {
+	margin: 0 0 10px;
+	font-size: clamp(1.8rem, 3vw, 3rem);
+	font-family: 'Teko', sans-serif;
+	font-weight: 700;
+	letter-spacing: 0.35px;
+	text-transform: uppercase;
+	color: #1b1b1b;
+}
+
+.rr-archive-main .rr-archive-description {
+	max-width: 760px;
+	font-size: 1rem;
+	line-height: 1.85;
+	color: #4b5563;
+}
+
 .rr-archive-cards {
 	width: 80%;
 	max-width: 1180px;
@@ -1133,7 +1204,7 @@ body > main {
 	width: 80%;
 	max-width: 1100px;
 	margin: 0 auto 24px;
-	text-align: center;
+	text-align: left;
 }
 
 .rr-shop-archive .rr-shop-hero h1 {
@@ -1145,7 +1216,7 @@ body > main {
 }
 
 .rr-shop-archive .rr-shop-hero p {
-	margin: 0 auto;
+	margin: 0;
 	max-width: 760px;
 	font-size: 1rem;
 	line-height: 1.85;
@@ -2414,6 +2485,10 @@ body > main {
 		width: 92%;
 	}
 
+	.rr-archive-main .rr-archive-hero {
+		width: 92%;
+	}
+
 	.rr-page-template--cart {
 		padding: 36px 0 56px;
 	}
@@ -2691,6 +2766,10 @@ body > main {
 	}
 
 	.rr-shop-archive .rr-shop-hero {
+		width: 100%;
+	}
+
+	.rr-archive-main .rr-archive-hero {
 		width: 100%;
 	}
 

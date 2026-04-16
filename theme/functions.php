@@ -19,6 +19,106 @@ function retro_restoration_setup(): void
 }
 add_action('after_setup_theme', 'retro_restoration_setup');
 
+function retro_restoration_sanitize_social_url($url): string
+{
+    return esc_url_raw((string) $url);
+}
+
+function retro_restoration_customize_register(WP_Customize_Manager $customize_manager): void
+{
+    $customize_manager->add_section('retro_restoration_social_links', [
+        'title'    => __('Social Links', 'retro-restoration'),
+        'priority' => 160,
+    ]);
+
+    $social_links = [
+        'facebook'  => __('Facebook URL', 'retro-restoration'),
+        'x'         => __('X URL', 'retro-restoration'),
+        'instagram' => __('Instagram URL', 'retro-restoration'),
+        'discord'   => __('Discord URL', 'retro-restoration'),
+        'youtube'   => __('YouTube URL', 'retro-restoration'),
+    ];
+
+    foreach ($social_links as $network => $label) {
+        $setting_id = 'retro_restoration_social_' . $network . '_url';
+
+        $customize_manager->add_setting($setting_id, [
+            'default'           => '',
+            'sanitize_callback' => 'retro_restoration_sanitize_social_url',
+            'transport'         => 'refresh',
+        ]);
+
+        $customize_manager->add_control($setting_id, [
+            'label'   => $label,
+            'section' => 'retro_restoration_social_links',
+            'type'    => 'url',
+        ]);
+    }
+}
+add_action('customize_register', 'retro_restoration_customize_register');
+
+function retro_restoration_get_social_links(): array
+{
+    $social_links = [
+        'facebook' => [
+            'label' => __('Facebook', 'retro-restoration'),
+            'url'   => (string) get_theme_mod('retro_restoration_social_facebook_url', ''),
+        ],
+        'x' => [
+            'label' => __('X', 'retro-restoration'),
+            'url'   => (string) get_theme_mod('retro_restoration_social_x_url', ''),
+        ],
+        'instagram' => [
+            'label' => __('Instagram', 'retro-restoration'),
+            'url'   => (string) get_theme_mod('retro_restoration_social_instagram_url', ''),
+        ],
+        'youtube' => [
+            'label' => __('YouTube', 'retro-restoration'),
+            'url'   => (string) get_theme_mod('retro_restoration_social_youtube_url', ''),
+        ],
+    ];
+
+    return array_filter($social_links, static function (array $social_link): bool {
+        return trim($social_link['url']) !== '';
+    });
+}
+
+function retro_restoration_get_social_icon_markup(string $network): string
+{
+    switch ($network) {
+        case 'facebook':
+            return '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 8.5V7.3c0-.8.5-1.3 1.3-1.3H17V3h-2.1C12.1 3 10.5 4.6 10.5 7.1V8.5H8v3h2.5V21h3.5v-9.5h2.8l.4-3H14Z" fill="currentColor"/></svg>';
+        case 'x':
+            return '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 4h3.7l4.1 5.4L17.9 4H20l-6.1 7.2L20.9 20H17l-4.5-5.9L7.7 20H5.6l6.5-7.7L5 4Z" fill="currentColor"/></svg>';
+        case 'instagram':
+            return '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.5 3.5h9A4 4 0 0 1 20.5 7v10a4 4 0 0 1-4 4h-9a4 4 0 0 1-4-4V7a4 4 0 0 1 4-3.5Zm9 2h-9A2 2 0 0 0 5.5 7v10A2 2 0 0 0 7.5 19h9a2 2 0 0 0 2-2V7a2 2 0 0 0-2-1.5Zm-4.5 2.5a4 4 0 1 1 0 8 4 4 0 0 1 0-8Zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm4.8-3.6a1 1 0 1 1-1 1 1 1 0 0 1 1-1Z" fill="currentColor"/></svg>';
+        case 'youtube':
+            return '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21.8 7.3a2.7 2.7 0 0 0-1.9-1.9C18.3 5 12 5 12 5s-6.3 0-7.9.4a2.7 2.7 0 0 0-1.9 1.9A28.1 28.1 0 0 0 2 12a28.1 28.1 0 0 0 .2 4.7 2.7 2.7 0 0 0 1.9 1.9C5.7 19 12 19 12 19s6.3 0 7.9-.4a2.7 2.7 0 0 0 1.9-1.9A28.1 28.1 0 0 0 22 12a28.1 28.1 0 0 0-.2-4.7ZM10 15.2V8.8l5.6 3.2L10 15.2Z" fill="currentColor"/></svg>';
+        default:
+            return '';
+    }
+}
+
+function retro_restoration_render_social_link_items(): void
+{
+    $social_links = retro_restoration_get_social_links();
+
+    foreach ($social_links as $network => $social_link) {
+        $icon_markup = retro_restoration_get_social_icon_markup((string) $network);
+
+        if ($icon_markup === '') {
+            continue;
+        }
+
+        echo '<li class="rr-social-link rr-social-link--' . esc_attr($network) . '">';
+        echo '<a href="' . esc_url($social_link['url']) . '" target="_blank" rel="noopener noreferrer" aria-label="' . esc_attr($social_link['label']) . '">';
+        echo '<span class="screen-reader-text">' . esc_html($social_link['label']) . '</span>';
+        echo '<span class="rr-social-link__icon">' . $icon_markup . '</span>';
+        echo '</a>';
+        echo '</li>';
+    }
+}
+
 function retro_restoration_primary_menu_fallback($args = []): void
 {
     $menu_class = !empty($args['menu_class']) ? sanitize_html_class($args['menu_class']) : 'rr-menu';
@@ -141,6 +241,14 @@ function retro_restoration_get_first_term_url(string $taxonomy, array $slugs): s
 
     $fallback_slug = !empty($slugs) ? (string) $slugs[0] : '';
     return retro_restoration_get_term_or_slug_url($taxonomy, $fallback_slug);
+}
+
+function retro_restoration_get_archive_title(): string
+{
+    $title = wp_strip_all_tags((string) get_the_archive_title());
+    $title = preg_replace('/^(Category|Tag|Author|Archives|Day|Month|Year|Product category|Product tag):\s*/i', '', $title);
+
+    return trim((string) $title);
 }
 
 function retro_restoration_get_account_page_slug(): string

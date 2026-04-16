@@ -8,7 +8,7 @@ get_header();
 ?>
 <main class="rr-page-template rr-shop-archive">
     <section class="rr-starter-section rr-starter-section--hero rr-shop-hero">
-        <h1><?php woocommerce_page_title(); ?></h1>
+        <h1><?php echo esc_html(retro_restoration_get_archive_title()); ?></h1>
         <p><?php esc_html_e('Browse products, parts, and restoration picks from the workshop.', 'retro-restoration'); ?></p>
     </section>
 

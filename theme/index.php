@@ -19,6 +19,16 @@ if ($is_product_archive_fallback) {
 get_header();
 ?>
 	<main class="rr-archive-main">
+		<?php if (is_archive()) : ?>
+			<section class="rr-starter-section rr-starter-section--hero rr-archive-hero">
+				<h1><?php echo esc_html(retro_restoration_get_archive_title()); ?></h1>
+				<?php $archive_description = get_the_archive_description(); ?>
+				<?php if (!empty($archive_description)) : ?>
+					<div class="rr-archive-description"><?php echo wp_kses_post($archive_description); ?></div>
+				<?php endif; ?>
+			</section>
+		<?php endif; ?>
+
 		<section class="rr-archive-cards" aria-label="<?php esc_attr_e('Post archive', 'retro-restoration'); ?>">
 			<?php if (have_posts()) : ?>
 				<div class="rr-archive-grid">

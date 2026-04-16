@@ -31,12 +31,16 @@ if (!defined('ABSPATH')) {
                 ?>
             </nav>
 
+            <?php $header_social_links = retro_restoration_get_social_links(); ?>
+            <?php $discord_url = (string) get_theme_mod('retro_restoration_social_discord_url', ''); ?>
             <ul class="rr-social-links" aria-label="<?php esc_attr_e('Social links', 'retro-restoration'); ?>">
                 <li class="rr-register-button"><a href="<?php echo esc_url(home_url('/my-account/')); ?>" class="rr-register-link"><?php _e('Account', 'retro-restoration'); ?></a></li>
-                <li><a href="#" aria-label="Facebook">f</a></li>
-                <li><a href="#" aria-label="X">x</a></li>
-                <li><a href="#" aria-label="Instagram">ig</a></li>
-                <li><a href="#" aria-label="YouTube">yt</a></li>
+                <?php if ($discord_url !== '') : ?>
+                    <li class="rr-discord-button"><a href="<?php echo esc_url($discord_url); ?>" class="rr-discord-link" target="_blank" rel="noopener noreferrer"><?php _e('Discord', 'retro-restoration'); ?></a></li>
+                <?php endif; ?>
+                <?php if (!empty($header_social_links)) : ?>
+                    <?php retro_restoration_render_social_link_items(); ?>
+                <?php endif; ?>
             </ul>
         </div>
     </div>
