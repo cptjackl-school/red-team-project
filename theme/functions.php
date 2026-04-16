@@ -21,7 +21,7 @@ add_action('after_setup_theme', 'retro_restoration_setup');
 function retro_restoration_primary_menu_fallback($args = []): void
 {
     $menu_class = !empty($args['menu_class']) ? sanitize_html_class($args['menu_class']) : 'rr-menu';
-    $is_footer_menu = isset($args['theme_location']) && $args['theme_location'] === 'footer_menu';
+    $is_footer_menu = isset($arzgs['theme_location']) && $args['theme_location'] === 'footer_menu';
 
     $featured_url = esc_url(home_url('/featured/'));
     $consoles_url = esc_url(home_url('/categories/'));
@@ -142,6 +142,61 @@ function retro_restoration_get_first_term_url(string $taxonomy, array $slugs): s
     return retro_restoration_get_term_or_slug_url($taxonomy, $fallback_slug);
 }
 
+function retro_restoration_get_account_page_slug(): string
+{
+    return 'account';
+}
+
+function retro_restoration_get_account_page_id(): ?int
+{
+    $page = get_page_by_path(retro_restoration_get_account_page_slug());
+    if ($page instanceof WP_Post) {
+        return (int) $page->ID;
+    }
+
+    return null;
+}
+
+function retro_restoration_account_page_url(): string
+{
+    $page_id = retro_restoration_get_account_page_id();
+    if ($page_id) {
+        return (string) get_permalink($page_id);
+    }
+
+    return home_url('/' . retro_restoration_get_account_page_slug() . '/');
+}
+
+function retro_restoration_ensure_account_page_exists(): void
+{
+    $slug = retro_restoration_get_account_page_slug();
+    $template = 'page-templates/template-login-redesign-starter.php';
+    $page_id = retro_restoration_get_account_page_id();
+
+    if ($page_id) {
+        $current_template = get_post_meta($page_id, '_wp_page_template', true);
+        if ($current_template !== $template) {
+            update_post_meta($page_id, '_wp_page_template', $template);
+        }
+
+        return;
+    }
+
+    $new_id = wp_insert_post([
+        'post_title'   => __('Register / Login', 'retro-restoration'),
+        'post_name'    => $slug,
+        'post_status'  => 'publish',
+        'post_type'    => 'page',
+        'post_content' => '',
+        'post_author'  => get_current_user_id() ?: 1,
+    ], true);
+
+    if (!is_wp_error($new_id)) {
+        update_post_meta($new_id, '_wp_page_template', $template);
+    }
+}
+add_action('init', 'retro_restoration_ensure_account_page_exists');
+
 function retro_restoration_enqueue_assets(): void
 {
     $style_path = get_stylesheet_directory() . '/style.css';
@@ -167,3 +222,7 @@ function retro_restoration_comment_card(WP_Comment $comment, array $args, int $d
         'comment_number' => 0,
     ]);
 }
+
+add_filter( 'registration_redirect', function() {
+    return home_url();
+} );
