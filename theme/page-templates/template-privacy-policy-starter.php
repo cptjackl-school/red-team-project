@@ -8,26 +8,30 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+$policy_query = new WP_Query([
+    'post_type'           => 'post',
+    'post_status'         => 'publish',
+    'posts_per_page'      => 1,
+    'ignore_sticky_posts' => true,
+    'tag'                 => 'privacy',
+]);
+
 get_header();
 ?>
-<main class="rr-page-template rr-page-template--privacy-starter">
-    <section class="rr-starter-section rr-starter-section--hero">
-        <h1><?php esc_html_e('Privacy Policy Starter', 'retro-restoration'); ?></h1>
-        <p><?php esc_html_e('Starter structure for your policy content and legal review.', 'retro-restoration'); ?></p>
-    </section>
-
-    <section class="rr-starter-section rr-starter-section--content">
-        <h2><?php esc_html_e('Suggested Sections', 'retro-restoration'); ?></h2>
-        <ul>
-            <li><?php esc_html_e('Information collected', 'retro-restoration'); ?></li>
-            <li><?php esc_html_e('How data is used', 'retro-restoration'); ?></li>
-            <li><?php esc_html_e('Cookies and third-party services', 'retro-restoration'); ?></li>
-            <li><?php esc_html_e('User rights and contact details', 'retro-restoration'); ?></li>
-        </ul>
-
-        <div class="rr-policy-placeholder">
-            <p><?php esc_html_e('Replace this placeholder with your finalized privacy policy text.', 'retro-restoration'); ?></p>
-        </div>
+<main class="rr-page-template rr-page-template--refund-returns-starter">
+    <section class="rr-starter-section rr-starter-section--content rr-refund-returns-content">
+        <?php if ($policy_query->have_posts()) : ?>
+            <?php while ($policy_query->have_posts()) : $policy_query->the_post(); ?>
+                <h1><?php the_title(); ?></h1>
+                <div class="rr-policy-content">
+                    <?php the_content(); ?>
+                </div>
+            <?php endwhile; ?>
+            <?php wp_reset_postdata(); ?>
+        <?php else : ?>
+            <h1><?php esc_html_e('Privacy Policy', 'retro-restoration'); ?></h1>
+            <p><?php esc_html_e('No published post with the "privacy" tag was found.', 'retro-restoration'); ?></p>
+        <?php endif; ?>
     </section>
 </main>
 <?php get_footer();
