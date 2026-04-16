@@ -1,7 +1,3 @@
-# Users
-
-- user registration page
-
 # Shop
 
 - return and refund page
