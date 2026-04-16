@@ -21,7 +21,7 @@ $section_link_text = isset($args['section_link_text']) ? (string) $args['section
     <?php endif; ?>
 
     <?php if ($query instanceof WP_Query && $query->have_posts()) : ?>
-        <div class="rr-latest__grid">
+        <div class="rr-latest__grid rr-archive-grid">
             <?php while ($query->have_posts()) : $query->the_post(); ?>
                 <?php get_template_part('template-parts/content/post-card'); ?>
             <?php endwhile; ?>

@@ -9,6 +9,7 @@ function retro_restoration_setup(): void
     add_theme_support('menus');
     add_theme_support('title-tag');
     add_theme_support('post-thumbnails');
+    add_theme_support('woocommerce');
     add_theme_support('html5', ['search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script']);
 
     register_nav_menus([
@@ -21,7 +22,7 @@ add_action('after_setup_theme', 'retro_restoration_setup');
 function retro_restoration_primary_menu_fallback($args = []): void
 {
     $menu_class = !empty($args['menu_class']) ? sanitize_html_class($args['menu_class']) : 'rr-menu';
-    $is_footer_menu = isset($arzgs['theme_location']) && $args['theme_location'] === 'footer_menu';
+    $is_footer_menu = isset($args['theme_location']) && $args['theme_location'] === 'footer_menu';
 
     $featured_url = esc_url(home_url('/featured/'));
     $consoles_url = esc_url(home_url('/categories/'));
@@ -210,6 +211,16 @@ function retro_restoration_enqueue_assets(): void
     );
 }
 add_action('wp_enqueue_scripts', 'retro_restoration_enqueue_assets');
+
+function retro_restoration_disable_woocommerce_sidebar(): void
+{
+    if (is_admin()) {
+        return;
+    }
+
+    remove_action('woocommerce_sidebar', 'woocommerce_get_sidebar', 10);
+}
+add_action('wp', 'retro_restoration_disable_woocommerce_sidebar');
 
 function retro_restoration_comment_card(WP_Comment $comment, array $args, int $depth): void
 {
