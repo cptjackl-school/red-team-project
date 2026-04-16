@@ -32,7 +32,7 @@ if (!defined('ABSPATH')) {
             </nav>
 
             <ul class="rr-social-links" aria-label="<?php esc_attr_e('Social links', 'retro-restoration'); ?>">
-                <li class="rr-register-button"><a href="<?php echo esc_url(home_url('/account/')); ?>" class="rr-register-link"><?php _e('Account', 'retro-restoration'); ?></a></li>
+                <li class="rr-register-button"><a href="<?php echo esc_url(home_url('/my-account/')); ?>" class="rr-register-link"><?php _e('Account', 'retro-restoration'); ?></a></li>
                 <li><a href="#" aria-label="Facebook">f</a></li>
                 <li><a href="#" aria-label="X">x</a></li>
                 <li><a href="#" aria-label="Instagram">ig</a></li>

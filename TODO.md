@@ -1,26 +1,13 @@
-# Comment Section
-
-- comment cards
-
-# Finish video pages
-
-- video description sidebar
-- video comments section
-
 # Users
 
 - user registration page
-- user information page
 
 # Shop
 
-- implement Woo Commerce
-- product pages
-- cart page
-- checkout page
+- return and refund page
+- privacy policy page
+- maybe make them display a specific post titled "Return and Refund Policy" and "Privacy Policy" instead of hardcoding the content into the template
 
 # Documentation:
 
-- Plugin comparison report
 - blog use tutorial
-- progress update for stakeholder

@@ -145,7 +145,7 @@ function retro_restoration_get_first_term_url(string $taxonomy, array $slugs): s
 
 function retro_restoration_get_account_page_slug(): string
 {
-    return 'account';
+    return 'my-account';
 }
 
 function retro_restoration_get_account_page_id(): ?int
@@ -168,10 +168,139 @@ function retro_restoration_account_page_url(): string
     return home_url('/' . retro_restoration_get_account_page_slug() . '/');
 }
 
+function retro_restoration_account_redirect(array $query_args = []): void
+{
+    $url = retro_restoration_account_page_url();
+
+    if (!empty($query_args)) {
+        $url = add_query_arg($query_args, $url);
+    }
+
+    wp_safe_redirect($url);
+    exit;
+}
+
+function retro_restoration_generate_unique_username(string $base_username): string
+{
+    $base_username = sanitize_user($base_username, true);
+
+    if ($base_username === '') {
+        $base_username = 'user';
+    }
+
+    $candidate = $base_username;
+    $suffix = 1;
+
+    while (username_exists($candidate)) {
+        $candidate = $base_username . $suffix;
+        $suffix++;
+    }
+
+    return $candidate;
+}
+
+function retro_restoration_handle_account_form_submission(): void
+{
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST' || empty($_POST['rr_account_action'])) {
+        return;
+    }
+
+    $action = sanitize_text_field(wp_unslash($_POST['rr_account_action']));
+    $nonce = isset($_POST['rr_account_auth_nonce']) ? sanitize_text_field(wp_unslash($_POST['rr_account_auth_nonce'])) : '';
+
+    if (!wp_verify_nonce($nonce, 'rr_account_auth')) {
+        retro_restoration_account_redirect(['rr_notice' => 'invalid_nonce']);
+    }
+
+    if ($action === 'login') {
+        $identifier = isset($_POST['rr_login_identifier']) ? sanitize_text_field(wp_unslash($_POST['rr_login_identifier'])) : '';
+        $password = isset($_POST['rr_login_password']) ? (string) wp_unslash($_POST['rr_login_password']) : '';
+
+        if ($identifier === '' || $password === '') {
+            retro_restoration_account_redirect(['rr_notice' => 'login_missing']);
+        }
+
+        $user = is_email($identifier) ? get_user_by('email', $identifier) : get_user_by('login', $identifier);
+
+        if (!$user instanceof WP_User && is_email($identifier)) {
+            $user = get_user_by('email', $identifier);
+        }
+
+        if (!$user instanceof WP_User) {
+            retro_restoration_account_redirect(['rr_notice' => 'login_invalid']);
+        }
+
+        $signed_in = wp_signon([
+            'user_login'    => $user->user_login,
+            'user_password' => $password,
+            'remember'      => !empty($_POST['rr_login_remember']),
+        ], is_ssl());
+
+        if (is_wp_error($signed_in)) {
+            retro_restoration_account_redirect(['rr_notice' => 'login_invalid']);
+        }
+
+        retro_restoration_account_redirect();
+    }
+
+    if ($action === 'register') {
+        $username_input = isset($_POST['rr_register_username']) ? sanitize_user(wp_unslash($_POST['rr_register_username']), true) : '';
+        $email = isset($_POST['rr_register_email']) ? sanitize_email(wp_unslash($_POST['rr_register_email'])) : '';
+        $password = isset($_POST['rr_register_password']) ? (string) wp_unslash($_POST['rr_register_password']) : '';
+        $confirm_password = isset($_POST['rr_register_confirm_password']) ? (string) wp_unslash($_POST['rr_register_confirm_password']) : '';
+
+        if ($email === '' || $password === '' || $confirm_password === '') {
+            retro_restoration_account_redirect(['rr_notice' => 'register_missing']);
+        }
+
+        if (!is_email($email)) {
+            retro_restoration_account_redirect(['rr_notice' => 'register_email_invalid']);
+        }
+
+        if (email_exists($email)) {
+            retro_restoration_account_redirect(['rr_notice' => 'register_email_taken']);
+        }
+
+        if (strlen($password) < 8) {
+            retro_restoration_account_redirect(['rr_notice' => 'register_password_short']);
+        }
+
+        if ($password !== $confirm_password) {
+            retro_restoration_account_redirect(['rr_notice' => 'register_password_mismatch']);
+        }
+
+        $base_username = $username_input !== '' ? $username_input : (string) strstr($email, '@', true);
+        $username = retro_restoration_generate_unique_username($base_username);
+
+        if ($username === '') {
+            retro_restoration_account_redirect(['rr_notice' => 'register_username_invalid']);
+        }
+
+        $user_id = wp_insert_user([
+            'user_login' => $username,
+            'user_pass'  => $password,
+            'user_email' => $email,
+            'role'       => function_exists('wc_create_new_customer') ? 'customer' : 'subscriber',
+        ]);
+
+        if (is_wp_error($user_id)) {
+            retro_restoration_account_redirect(['rr_notice' => 'register_failed']);
+        }
+
+        wp_set_current_user((int) $user_id);
+        wp_set_auth_cookie((int) $user_id, true, is_ssl());
+
+        retro_restoration_account_redirect(['rr_notice' => 'register_success']);
+    }
+
+    retro_restoration_account_redirect();
+}
+add_action('template_redirect', 'retro_restoration_handle_account_form_submission');
+
 function retro_restoration_ensure_account_page_exists(): void
 {
     $slug = retro_restoration_get_account_page_slug();
-    $template = 'page-templates/template-login-redesign-starter.php';
+    $template = 'page-templates/template-login-register.php';
     $page_id = retro_restoration_get_account_page_id();
 
     if ($page_id) {
@@ -184,7 +313,7 @@ function retro_restoration_ensure_account_page_exists(): void
     }
 
     $new_id = wp_insert_post([
-        'post_title'   => __('Register / Login', 'retro-restoration'),
+        'post_title'   => __('Login / Register', 'retro-restoration'),
         'post_name'    => $slug,
         'post_status'  => 'publish',
         'post_type'    => 'page',
@@ -234,6 +363,6 @@ function retro_restoration_comment_card(WP_Comment $comment, array $args, int $d
     ]);
 }
 
-add_filter( 'registration_redirect', function() {
+add_filter('registration_redirect', function() {
     return home_url();
-} );
+});

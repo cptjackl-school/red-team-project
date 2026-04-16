@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Starter - My Account Page
+ * Template Name: My Account Page
  * Template Post Type: page
  */
 
