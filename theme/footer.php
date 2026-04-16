@@ -24,7 +24,7 @@ if (!defined('ABSPATH')) {
             </nav>
 
             <div class="rr-footer-meta">
-                <span><?php echo esc_html(get_bloginfo('name')); ?> &copy; <?php echo esc_html(date('Y')); ?></span>
+                <a href="<?php echo esc_url(home_url('/refund_returns/')); ?>" class="rr-footer-brand-link"><?php echo esc_html(get_bloginfo('name')); ?> &copy; <?php echo esc_html(date('Y')); ?></a>
                 <ul class="rr-footer-social" aria-label="<?php esc_attr_e('Footer social links', 'retro-restoration'); ?>">
                     <li><a href="#" aria-label="Facebook">f</a></li>
                     <li><a href="#" aria-label="X">x</a></li>
